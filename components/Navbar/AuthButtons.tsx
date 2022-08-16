@@ -1,11 +1,17 @@
 import { Button } from '@chakra-ui/react';
 import React from 'react';
+import { useSetRecoilState } from 'recoil';
+import { authModalState } from '../../recoil/authModal';
 
 const AuthButtons: React.FC = () => {
+  const setModalState = useSetRecoilState(authModalState);
+
   return (
     <>
       <Button
-        onClick={() => {}}
+        onClick={() => {
+          setModalState({ open: true, view: 'login' });
+        }}
         variant='outline'
         height='28px'
         mr={2}
@@ -15,7 +21,9 @@ const AuthButtons: React.FC = () => {
         Log In
       </Button>
       <Button
-        onClick={() => {}}
+        onClick={() => {
+          setModalState({ open: true, view: 'signup' });
+        }}
         height='28px'
         display={{ base: 'none', sm: 'flex' }}
         width={{ base: '70px', md: '110px' }}
