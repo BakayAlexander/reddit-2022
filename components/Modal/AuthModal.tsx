@@ -15,6 +15,7 @@ import { auth } from '../../firebase/clientApp';
 import { authModalState } from '../../recoil/authModal';
 import AuthInputs from './AuthInputs';
 import GoogleAuthButtons from './GoogleAuthButtons';
+import ResetPassword from './ResetPassword';
 
 const AuthModal: React.FC = () => {
   const [modalState, setModalState] = useRecoilState(authModalState);
@@ -50,10 +51,15 @@ const AuthModal: React.FC = () => {
             pb={6}
           >
             <Flex direction='column' alignItems='center' justifyContent='center' width='70%'>
-              <GoogleAuthButtons />
-              <Text color='gray.500'>OR</Text>
-              <AuthInputs />
-              {/* <ResetPassword /> */}
+              {modalState.view === 'login' || modalState.view === 'signup' ? (
+                <>
+                  <GoogleAuthButtons />
+                  <Text color='gray.500'>OR</Text>
+                  <AuthInputs />
+                </>
+              ) : (
+                <ResetPassword />
+              )}
             </Flex>
           </ModalBody>
         </ModalContent>
