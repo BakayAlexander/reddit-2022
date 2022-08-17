@@ -20,7 +20,6 @@ const SignupForm: React.FC<SignupFormProps> = () => {
 
   const [error, setError] = useState('');
 
-  //Change standart error from doc to specificly userError, because doc's variant didn't work correct
   const [createUserWithEmailAndPassword, user, loading, userError] =
     useCreateUserWithEmailAndPassword(auth);
 
