@@ -8,14 +8,17 @@ import {
   Flex,
   Text,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRecoilState } from 'recoil';
+import { auth } from '../../firebase/clientApp';
 import { authModalState } from '../../recoil/authModal';
 import AuthInputs from './AuthInputs';
 import GoogleAuthButtons from './GoogleAuthButtons';
 
 const AuthModal: React.FC = () => {
   const [modalState, setModalState] = useRecoilState(authModalState);
+  const [user, loading, error] = useAuthState(auth);
 
   const handleClose = () => {
     setModalState(modalState => ({
@@ -23,6 +26,10 @@ const AuthModal: React.FC = () => {
       open: false,
     }));
   };
+
+  useEffect(() => {
+    if (user) handleClose();
+  }, [user]);
 
   return (
     <>
