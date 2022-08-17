@@ -2,6 +2,8 @@ import { Input, Button, Flex, Text } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { authModalState } from '../../recoil/authModal';
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { auth } from '../../firebase/clientApp';
 
 type SignupFormProps = {};
 
@@ -14,7 +16,21 @@ const SignupForm: React.FC<SignupFormProps> = () => {
     confirmPassword: '',
   });
 
-  const handleSubmit = () => {};
+  const [error, setError] = useState('');
+
+  //Change standart error from doc to specificly userError, because doc's variant didn't work correct
+  const [createUserWithEmailAndPassword, user, loading, userError] =
+    useCreateUserWithEmailAndPassword(auth);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (signupForm.password !== signupForm.confirmPassword) {
+      if (error) setError('');
+      setError('Passwords do not match');
+      return;
+    }
+    createUserWithEmailAndPassword(signupForm.email, signupForm.password);
+  };
 
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSignupForm(signupForm => ({
@@ -63,7 +79,13 @@ const SignupForm: React.FC<SignupFormProps> = () => {
         _hover={{ bg: '#fff', border: '1px solid', borderColor: 'blue.500' }}
         _focus={{ outline: 'none', bg: '#fff', border: '1px solid', borderColor: 'blue.500' }}
       />
-      <Button type='submit' width='100%' height='36px' mb={2} mt={2}>
+      {error && (
+        <Text textAlign='center' color='red' fontSize='10pt'>
+          {error}
+        </Text>
+      )}
+      {/* Chakra gives standart opportunity to use isLoading */}
+      <Button type='submit' width='100%' height='36px' mb={2} mt={2} isLoading={loading}>
         Sign Up
       </Button>
       <Flex fontSize='9pt' justifyContent='center'>
