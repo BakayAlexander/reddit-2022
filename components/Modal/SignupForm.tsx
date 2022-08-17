@@ -4,6 +4,8 @@ import { useSetRecoilState } from 'recoil';
 import { authModalState } from '../../recoil/authModal';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth } from '../../firebase/clientApp';
+import { FIREBASE_ERRORS } from '../../firebase/firebaseErrors';
+import { FirebaseError } from 'firebase/app';
 
 type SignupFormProps = {};
 
@@ -79,9 +81,10 @@ const SignupForm: React.FC<SignupFormProps> = () => {
         _hover={{ bg: '#fff', border: '1px solid', borderColor: 'blue.500' }}
         _focus={{ outline: 'none', bg: '#fff', border: '1px solid', borderColor: 'blue.500' }}
       />
-      {error && (
+      {(error || userError) && (
         <Text textAlign='center' color='red' fontSize='10pt'>
-          {error}
+          {/* Change message type to a new type */}
+          {error || FIREBASE_ERRORS[userError?.message as keyof typeof FIREBASE_ERRORS]}
         </Text>
       )}
       {/* Chakra gives standart opportunity to use isLoading */}
