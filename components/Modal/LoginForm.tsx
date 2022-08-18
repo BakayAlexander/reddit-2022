@@ -4,7 +4,7 @@ import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useSetRecoilState } from 'recoil';
 import { auth } from '../../firebase/clientApp';
 import { FIREBASE_ERRORS } from '../../firebase/firebaseErrors';
-import { authModalState } from '../../recoil/authModal';
+import { authModalState } from '../../recoil/authModalAtom';
 
 type LoginFormProps = {};
 

@@ -18,7 +18,7 @@ import { ChevronDownIcon } from '@chakra-ui/icons';
 import { IoSparkles } from 'react-icons/io5';
 import { auth } from '../../firebase/clientApp';
 import { useSetRecoilState } from 'recoil';
-import { authModalState } from '../../recoil/authModal';
+import { authModalState } from '../../recoil/authModalAtom';
 
 type UserMenuProps = {
   user?: User | null;
