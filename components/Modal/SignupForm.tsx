@@ -1,11 +1,13 @@
 import { Input, Button, Flex, Text } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { authModalState } from '../../recoil/authModal';
 import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { auth } from '../../firebase/clientApp';
+import { auth, firestore } from '../../firebase/clientApp';
 import { FIREBASE_ERRORS } from '../../firebase/firebaseErrors';
 import { FirebaseError } from 'firebase/app';
+import { User } from 'firebase/auth';
+import { addDoc, collection } from 'firebase/firestore';
 
 type SignupFormProps = {};
 
@@ -20,7 +22,7 @@ const SignupForm: React.FC<SignupFormProps> = () => {
 
   const [error, setError] = useState('');
 
-  const [createUserWithEmailAndPassword, user, loading, userError] =
+  const [createUserWithEmailAndPassword, userCredentials, loading, userError] =
     useCreateUserWithEmailAndPassword(auth);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
