@@ -2,7 +2,9 @@ import { doc, getDoc } from 'firebase/firestore';
 import { GetServerSidePropsContext } from 'next';
 import React from 'react';
 import safeJsonStringify from 'safe-json-stringify';
+import Header from '../../../components/Community/Header';
 import CommunityNotFound from '../../../components/Community/NotFound';
+import PageContentLayout from '../../../components/Layouts/PageContentLayout';
 import { firestore } from '../../../firebase/clientApp';
 import { Community } from '../../../recoil/communityAtom';
 
@@ -15,7 +17,19 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
     return <CommunityNotFound />;
   }
 
-  return <div>{communityData.id}</div>;
+  return (
+    <>
+      <Header communityData={communityData} />
+      <PageContentLayout>
+        <>
+          <div>LHS</div>
+        </>
+        <>
+          <div>RHS</div>
+        </>
+      </PageContentLayout>
+    </>
+  );
 };
 
 export default CommunityPage;
