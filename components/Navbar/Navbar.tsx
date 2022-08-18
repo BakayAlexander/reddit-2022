@@ -2,7 +2,7 @@ import { Flex, Image } from '@chakra-ui/react';
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from '../../firebase/clientApp';
-import Directory from './Directory';
+import DirectoryMenu from './DirectoryMenu';
 import RightContent from './RightContent';
 import SearchInput from './SearchInput';
 
@@ -20,7 +20,7 @@ const Navbar: React.FC = () => {
           display={{ base: 'none', md: 'unset' }}
         />
       </Flex>
-      <Directory />
+      {user && <DirectoryMenu />}
       <SearchInput />
       <RightContent user={user} />
     </Flex>
