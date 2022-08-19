@@ -17,8 +17,9 @@ import { MdOutlineLogin } from 'react-icons/md';
 import { ChevronDownIcon } from '@chakra-ui/icons';
 import { IoSparkles } from 'react-icons/io5';
 import { auth } from '../../firebase/clientApp';
-import { useSetRecoilState } from 'recoil';
+import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import { authModalState } from '../../recoil/authModalAtom';
+import { communityState } from '../../recoil/communityAtom';
 
 type UserMenuProps = {
   user?: User | null;
@@ -26,6 +27,13 @@ type UserMenuProps = {
 
 const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
   const setModalState = useSetRecoilState(authModalState);
+  const resetCommunityState = useResetRecoilState(communityState);
+
+  const handleLogout = async () => {
+    await signOut(auth);
+
+    resetCommunityState();
+  };
 
   return (
     <Menu>
@@ -72,7 +80,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
             </MenuItem>
             <MenuDivider />
             <MenuItem
-              onClick={() => signOut(auth)}
+              onClick={handleLogout}
               fontSize='10pt'
               fontWeight={700}
               _hover={{ bg: 'blue.500', color: 'white' }}
