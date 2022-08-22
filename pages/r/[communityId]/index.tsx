@@ -2,6 +2,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { GetServerSidePropsContext } from 'next';
 import React from 'react';
 import safeJsonStringify from 'safe-json-stringify';
+import CreatePostLink from '../../../components/Community/CreatePostLink';
 import Header from '../../../components/Community/Header';
 import CommunityNotFound from '../../../components/Community/NotFound';
 import PageContentLayout from '../../../components/Layouts/PageContentLayout';
@@ -22,7 +23,7 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
       <Header communityData={communityData} />
       <PageContentLayout>
         <>
-          <div>LHS</div>
+          <CreatePostLink />
         </>
         <>
           <div>RHS</div>
