@@ -7,8 +7,16 @@ import { AiFillCloseCircle } from 'react-icons/ai';
 import TabItem from './TabItem';
 import TextInputs from './TextInputs';
 import ImageUpload from './ImageUpload';
+import { Post } from '../../recoil/postAtom';
+import { User } from 'firebase/auth';
+import { useRouter } from 'next/router';
+import { addDoc, collection, serverTimestamp, Timestamp, updateDoc } from 'firebase/firestore';
+import { firestore, storage } from '../../firebase/clientApp';
+import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 
-type CreatePostFormProps = {};
+type CreatePostFormProps = {
+  user: User;
+};
 
 const formTabs: TabItem[] = [
   {
@@ -38,7 +46,7 @@ export type TabItem = {
   icon: typeof Icon.arguments;
 };
 
-const CreatePostForm: React.FC<CreatePostFormProps> = () => {
+const CreatePostForm: React.FC<CreatePostFormProps> = ({ user }) => {
   const [selectedTad, setSelectedTab] = useState(formTabs[0].title);
   const [textInputs, setTextInputs] = useState({
     title: '',
@@ -46,8 +54,47 @@ const CreatePostForm: React.FC<CreatePostFormProps> = () => {
   });
   const [selectedFile, setSelectedFile] = useState('');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const router = useRouter();
 
-  const handleCreatePost = async () => {};
+  const handleCreatePost = async () => {
+    const { communityId } = router.query;
+    //Creating a new post obj
+    const newPost: Post = {
+      communityId: communityId as string,
+      creatorId: user.uid!,
+      creatorDisplayName: user.email!.split('@')[0],
+      title: textInputs.title,
+      body: textInputs.body,
+      numberOfComments: 0,
+      voteStatus: 0,
+      createdAt: serverTimestamp() as Timestamp,
+    };
+    //Store post in firestore. And only in success case storing an image
+    setLoading(true);
+    try {
+      const postDocRef = await addDoc(collection(firestore, 'posts'), newPost);
+
+      //Check if user load an image and store it.
+      if (selectedFile) {
+        const imageRef = ref(storage, `posts/${postDocRef.id}/image`);
+        await uploadString(imageRef, selectedFile, 'data_url');
+        const downloadUrl = await getDownloadURL(imageRef);
+
+        //Updating post doc by adding imageUrl
+        await updateDoc(postDocRef, {
+          imageUrl: downloadUrl,
+        });
+      }
+    } catch (error: any) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+      setError(true);
+    }
+    //Redirect user back to community
+    router.back();
+  };
 
   const onSelectImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const reader = new FileReader();
