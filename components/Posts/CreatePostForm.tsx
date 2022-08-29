@@ -89,9 +89,9 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ user }) => {
       router.back();
     } catch (error: any) {
       console.log(error);
+      setError(true);
     } finally {
       setLoading(false);
-      setError(true);
     }
   };
 
