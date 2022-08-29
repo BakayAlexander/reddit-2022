@@ -1,18 +1,17 @@
-import { Flex, Icon } from '@chakra-ui/react';
+import { Alert, AlertIcon, Flex, Icon, Text } from '@chakra-ui/react';
+import { User } from 'firebase/auth';
+import { addDoc, collection, serverTimestamp, Timestamp, updateDoc } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadString } from 'firebase/storage';
+import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { BiPoll } from 'react-icons/bi';
 import { BsLink45Deg, BsMic } from 'react-icons/bs';
 import { IoDocumentText, IoImageOutline } from 'react-icons/io5';
-import { AiFillCloseCircle } from 'react-icons/ai';
+import { firestore, storage } from '../../firebase/clientApp';
+import { Post } from '../../recoil/postAtom';
+import ImageUpload from './ImageUpload';
 import TabItem from './TabItem';
 import TextInputs from './TextInputs';
-import ImageUpload from './ImageUpload';
-import { Post } from '../../recoil/postAtom';
-import { User } from 'firebase/auth';
-import { useRouter } from 'next/router';
-import { addDoc, collection, serverTimestamp, Timestamp, updateDoc } from 'firebase/firestore';
-import { firestore, storage } from '../../firebase/clientApp';
-import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 
 type CreatePostFormProps = {
   user: User;
@@ -86,14 +85,14 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ user }) => {
           imageUrl: downloadUrl,
         });
       }
+      //Redirect user back to community
+      router.back();
     } catch (error: any) {
       console.log(error);
     } finally {
       setLoading(false);
       setError(true);
     }
-    //Redirect user back to community
-    router.back();
   };
 
   const onSelectImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -146,6 +145,12 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ user }) => {
           />
         )}
       </Flex>
+      {error && (
+        <Alert status='error'>
+          <AlertIcon />
+          <Text mr={2}>Error was appeared while creating post.</Text>
+        </Alert>
+      )}
     </Flex>
   );
 };
