@@ -1,16 +1,6 @@
 import React, { useState } from 'react';
 
-import {
-  Alert,
-  AlertIcon,
-  Flex,
-  Icon,
-  Image,
-  Skeleton,
-  Spinner,
-  Stack,
-  Text,
-} from '@chakra-ui/react';
+import { Alert, AlertIcon, Flex, Icon, Image, Skeleton, Spinner, Stack, Text } from '@chakra-ui/react';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { BsChat } from 'react-icons/bs';
 import {
@@ -29,19 +19,12 @@ type PostItemProps = {
   post: Post;
   userIsCreator: boolean;
   userVoteValue?: number;
-  onVote: () => void;
+  onVote: (post: Post, vote: number, communityId: string) => void;
   onDeletePost: (post: Post) => Promise<boolean>;
   onSelectPost: () => void;
 };
 
-const PostItem: React.FC<PostItemProps> = ({
-  post,
-  userIsCreator,
-  userVoteValue,
-  onVote,
-  onDeletePost,
-  onSelectPost,
-}) => {
+const PostItem: React.FC<PostItemProps> = ({ post, userIsCreator, userVoteValue, onVote, onDeletePost, onSelectPost }) => {
   const [loadingImage, setLoadingImage] = useState(true);
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [error, setError] = useState('');
@@ -70,13 +53,20 @@ const PostItem: React.FC<PostItemProps> = ({
       cursor='pointer'
       onClick={onSelectPost}
     >
-      <Flex direction='column' align='center' bg='gray.100' p={2} width='40px' borderRadius={4}>
+      <Flex
+        direction='column'
+        align='center'
+        bg='gray.100'
+        p={2}
+        width='40px'
+        borderRadius={4}
+      >
         <Icon
           as={userVoteValue === 1 ? IoArrowUpCircleSharp : IoArrowUpCircleOutline}
           color={userVoteValue === 1 ? 'brand.100' : 'gray.400'}
           cursor='pointer'
           fontSize={22}
-          onClick={onVote}
+          onClick={() => onVote(post, 1, post.communityId)}
         />
         <Text fontSize='9pt'>{post.voteStatus}</Text>
         <Icon
@@ -84,31 +74,53 @@ const PostItem: React.FC<PostItemProps> = ({
           color={userVoteValue === -1 ? '#4379ff' : 'gray.400'}
           cursor='pointer'
           fontSize={22}
-          onClick={onVote}
+          onClick={() => onVote(post, -1, post.communityId)}
         />
       </Flex>
-      <Flex direction='column' width='100%'>
+      <Flex
+        direction='column'
+        width='100%'
+      >
         {error && (
           <Alert status='error'>
             <AlertIcon />
             <Text mr={2}>Error was appeared while deleting a post.</Text>
           </Alert>
         )}
-        <Stack spacing={1} p='10px'>
+        <Stack
+          spacing={1}
+          p='10px'
+        >
           {/* Home page check */}
-          <Stack direction='row' spacing={0.6} align='center' fontSize='9pt'>
+          <Stack
+            direction='row'
+            spacing={0.6}
+            align='center'
+            fontSize='9pt'
+          >
             <Text>
-              Posted by u/{post.creatorDisplayName}{' '}
-              {moment(new Date(post.createdAt.seconds * 1000)).fromNow()}
+              Posted by u/{post.creatorDisplayName} {moment(new Date(post.createdAt.seconds * 1000)).fromNow()}
             </Text>
           </Stack>
-          <Text fontSize='12pt' fontWeight={600}>
+          <Text
+            fontSize='12pt'
+            fontWeight={600}
+          >
             {post.title}
           </Text>
           <Text fontSize='10pt'>{post.body}</Text>
           {post.imageUrl && (
-            <Flex justify='center' align='center'>
-              {loadingImage && <Skeleton height='200px' width='100%' borderRadius={4} />}
+            <Flex
+              justify='center'
+              align='center'
+            >
+              {loadingImage && (
+                <Skeleton
+                  height='200px'
+                  width='100%'
+                  borderRadius={4}
+                />
+              )}
               <Image
                 src={post.imageUrl}
                 alt='Post image'
@@ -119,7 +131,11 @@ const PostItem: React.FC<PostItemProps> = ({
             </Flex>
           )}
         </Stack>
-        <Flex ml={1} mb={0.5} color='gray.500'>
+        <Flex
+          ml={1}
+          mb={0.5}
+          color='gray.500'
+        >
           <Flex
             align='center'
             p='8px 10px'
@@ -127,7 +143,10 @@ const PostItem: React.FC<PostItemProps> = ({
             _hover={{ bg: 'gray.200' }}
             cursor='pointer'
           >
-            <Icon as={BsChat} mr={2} />
+            <Icon
+              as={BsChat}
+              mr={2}
+            />
             <Text fontSize='9pt'>{post.numberOfComments}</Text>
           </Flex>
           <Flex
@@ -137,7 +156,10 @@ const PostItem: React.FC<PostItemProps> = ({
             _hover={{ bg: 'gray.200' }}
             cursor='pointer'
           >
-            <Icon as={IoArrowRedoOutline} mr={2} />
+            <Icon
+              as={IoArrowRedoOutline}
+              mr={2}
+            />
             <Text fontSize='9pt'>Share</Text>
           </Flex>
           <Flex
@@ -147,7 +169,10 @@ const PostItem: React.FC<PostItemProps> = ({
             _hover={{ bg: 'gray.200' }}
             cursor='pointer'
           >
-            <Icon as={IoBookmarkOutline} mr={2} />
+            <Icon
+              as={IoBookmarkOutline}
+              mr={2}
+            />
             <Text fontSize='9pt'>Save</Text>
           </Flex>
           {userIsCreator && (
@@ -163,7 +188,10 @@ const PostItem: React.FC<PostItemProps> = ({
                 <Spinner size='sm' />
               ) : (
                 <>
-                  <Icon as={AiOutlineDelete} mr={2} />
+                  <Icon
+                    as={AiOutlineDelete}
+                    mr={2}
+                  />
                   <Text fontSize='9pt'>Delete</Text>
                 </>
               )}
