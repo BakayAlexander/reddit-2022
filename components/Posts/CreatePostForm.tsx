@@ -8,6 +8,7 @@ import { BiPoll } from 'react-icons/bi';
 import { BsLink45Deg, BsMic } from 'react-icons/bs';
 import { IoDocumentText, IoImageOutline } from 'react-icons/io5';
 import { firestore, storage } from '../../firebase/clientApp';
+import useSelectFile from '../../hooks/useSelectFile';
 import { Post } from '../../recoil/postAtom';
 import ImageUpload from './ImageUpload';
 import TabItem from './TabItem';
@@ -51,9 +52,9 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ user }) => {
     title: '',
     body: '',
   });
-  const [selectedFile, setSelectedFile] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const { selectedFile, setSelectedFile, onSelectFile } = useSelectFile();
   const router = useRouter();
 
   const handleCreatePost = async () => {
@@ -95,19 +96,6 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ user }) => {
     }
   };
 
-  const onSelectImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const reader = new FileReader();
-    if (e.target.files?.[0]) {
-      reader.readAsDataURL(e.target.files[0]);
-    }
-
-    reader.onload = readerEvent => {
-      if (readerEvent.target?.result) {
-        setSelectedFile(readerEvent.target.result as string);
-      }
-    };
-  };
-
   const onTextChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const {
       target: { name, value },
@@ -138,7 +126,7 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({ user }) => {
         )}
         {selectedTad === 'Images & Video' && (
           <ImageUpload
-            onSelectImage={onSelectImage}
+            onSelectImage={onSelectFile}
             selectedFile={selectedFile}
             setSelectedFile={setSelectedFile}
             setSelectedTab={setSelectedTab}

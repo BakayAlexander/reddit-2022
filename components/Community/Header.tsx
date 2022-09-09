@@ -11,17 +11,37 @@ type HeaderProps = {
 const Header: React.FC<HeaderProps> = ({ communityData }) => {
   const { handleJoinOrLeaveCommunity, communityStateValue, loading } = useCommunityData();
 
-  const isJoined = !!communityStateValue.mySnippets.find(
-    item => item.communityId === communityData.id
-  );
-
+  const isJoined = !!communityStateValue.mySnippets.find(item => item.communityId === communityData.id);
   return (
-    <Flex direction='column' width='100%' height='140px'>
-      <Box height='50%' bg='blue.400' />
-      <Flex justify='center' bg='white' flexGrow={1}>
-        <Flex width='95%' maxWidth='860px'>
-          {communityData.imageUrl ? (
-            <Image />
+    <Flex
+      direction='column'
+      width='100%'
+      height='140px'
+    >
+      <Box
+        height='50%'
+        bg='blue.400'
+      />
+      <Flex
+        justify='center'
+        bg='white'
+        flexGrow={1}
+      >
+        <Flex
+          width='95%'
+          maxWidth='860px'
+        >
+          {communityStateValue.currentCommuinty?.imageUrl ? (
+            <Image
+              src={communityStateValue.currentCommuinty.imageUrl}
+              alt='Community avatar'
+              borderRadius='full'
+              boxSize='66px'
+              position='relative'
+              top={-3}
+              color='blue.500'
+              border='4px solid white'
+            />
           ) : (
             <Icon
               as={FaReddit}
@@ -33,11 +53,21 @@ const Header: React.FC<HeaderProps> = ({ communityData }) => {
             />
           )}
           <Flex>
-            <Flex direction='column' mr={6}>
-              <Text fontWeight={800} fontSize='16pt'>
+            <Flex
+              direction='column'
+              mr={6}
+            >
+              <Text
+                fontWeight={800}
+                fontSize='16pt'
+              >
                 {communityData.id}
               </Text>
-              <Text fontWeight={500} fontSize='10pt' color='gray.400'>
+              <Text
+                fontWeight={500}
+                fontSize='10pt'
+                color='gray.400'
+              >
                 r/{communityData.id}
               </Text>
             </Flex>
