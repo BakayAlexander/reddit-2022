@@ -27,12 +27,9 @@ type UserMenuProps = {
 
 const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
   const setModalState = useSetRecoilState(authModalState);
-  const resetCommunityState = useResetRecoilState(communityState);
 
   const handleLogout = async () => {
     await signOut(auth);
-
-    resetCommunityState();
   };
 
   return (
@@ -47,7 +44,12 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
           <Flex align='center'>
             {user ? (
               <>
-                <Icon as={FaRedditSquare} fontSize={24} mr={1} color='gray.300' />
+                <Icon
+                  as={FaRedditSquare}
+                  fontSize={24}
+                  mr={1}
+                  color='gray.300'
+                />
                 <Flex
                   display={{ base: 'none', lg: 'flex' }}
                   flexDirection='column'
@@ -57,13 +59,22 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
                 >
                   <Text fontWeight={700}>{user?.displayName || user?.email}</Text>
                   <Flex alignItems='center'>
-                    <Icon as={IoSparkles} color='brand.100' mr={1} />
+                    <Icon
+                      as={IoSparkles}
+                      color='brand.100'
+                      mr={1}
+                    />
                     <Text color='gray.400'>1 karma</Text>
                   </Flex>
                 </Flex>
               </>
             ) : (
-              <Icon as={VscAccount} fontSize={24} mr={1} color='gray.300' />
+              <Icon
+                as={VscAccount}
+                fontSize={24}
+                mr={1}
+                color='gray.300'
+              />
             )}
           </Flex>
           <ChevronDownIcon />
@@ -72,9 +83,18 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
       <MenuList>
         {user ? (
           <>
-            <MenuItem fontSize='10pt' fontWeight={700} _hover={{ bg: 'blue.500', color: 'white' }}>
+            <MenuItem
+              fontSize='10pt'
+              fontWeight={700}
+              _hover={{ bg: 'blue.500', color: 'white' }}
+            >
               <Flex align='center'>
-                <Icon as={CgProfile} fontSize={20} mr={2} color='gray.300' />
+                <Icon
+                  as={CgProfile}
+                  fontSize={20}
+                  mr={2}
+                  color='gray.300'
+                />
                 Profile
               </Flex>
             </MenuItem>
@@ -86,7 +106,12 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
               _hover={{ bg: 'blue.500', color: 'white' }}
             >
               <Flex align='center'>
-                <Icon as={MdOutlineLogin} fontSize={20} mr={2} color='gray.300' />
+                <Icon
+                  as={MdOutlineLogin}
+                  fontSize={20}
+                  mr={2}
+                  color='gray.300'
+                />
                 Log out
               </Flex>
             </MenuItem>
@@ -102,7 +127,12 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
               _hover={{ bg: 'blue.500', color: 'white' }}
             >
               <Flex align='center'>
-                <Icon as={MdOutlineLogin} fontSize={20} mr={2} color='gray.300' />
+                <Icon
+                  as={MdOutlineLogin}
+                  fontSize={20}
+                  mr={2}
+                  color='gray.300'
+                />
                 Log In / Sign Up
               </Flex>
             </MenuItem>

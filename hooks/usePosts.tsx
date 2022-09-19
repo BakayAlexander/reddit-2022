@@ -1,15 +1,25 @@
-import { collection, deleteDoc, doc, writeBatch } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, query, where, writeBatch } from 'firebase/firestore';
 import { deleteObject, ref } from 'firebase/storage';
+import { useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { auth, firestore, storage } from '../firebase/clientApp';
+import { authModalState } from '../recoil/authModalAtom';
+import { communityState } from '../recoil/communityAtom';
 import { Post, postState, PostVote } from '../recoil/postAtom';
 
 const usePosts = () => {
   const [user, loadingUser] = useAuthState(auth);
   const [postStateValue, setPostStateValue] = useRecoilState(postState);
+  const currentCommuinty = useRecoilValue(communityState).currentCommuinty;
+  const setAuthModalState = useSetRecoilState(authModalState);
 
   const onVote = async (post: Post, vote: number, communityId: string) => {
+    if (!user?.uid) {
+      setAuthModalState({ open: true, view: 'login' });
+      return;
+    }
+
     try {
       const { voteStatus } = post;
       const existingVote = postStateValue.postVotes.find(vote => vote.postId === post.id);
@@ -95,6 +105,50 @@ const usePosts = () => {
       return false;
     }
   };
+
+  const getCommunityPosts = async (communityId: string) => {
+    const postVotesQuery = query(
+      collection(firestore, 'users', `${user?.uid}/postVotes`),
+      where('communityId', '==', communityId)
+    );
+
+    const postVoteDocs = await getDocs(postVotesQuery);
+    const postVotes = postVoteDocs.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    setPostStateValue(prev => ({
+      ...prev,
+      postVotes: postVotes as PostVote[],
+    }));
+  };
+
+  const getCommunityPostVotes = async (communityId: string) => {
+    const postVotesQuery = query(
+      collection(firestore, 'users', `${user?.uid}/postVotes`),
+      where('communityId', '==', communityId)
+    );
+
+    const postVoteDocs = await getDocs(postVotesQuery);
+    const postVotes = postVoteDocs.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+    setPostStateValue(prev => ({ ...prev, postVotes: postVotes as PostVote[] }));
+  };
+
+  useEffect(() => {
+    if (!currentCommuinty?.id || !user) return;
+    getCommunityPostVotes(currentCommuinty?.id);
+  }, [currentCommuinty, user]);
+
+  useEffect(() => {
+    if (!user) {
+      setPostStateValue(prev => ({
+        ...prev,
+        postVotes: [],
+      }));
+    }
+  }, [user]);
 
   return {
     postStateValue,
