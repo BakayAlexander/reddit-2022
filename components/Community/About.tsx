@@ -37,8 +37,8 @@ const About: React.FC<AboutProps> = ({ communityData }) => {
       });
       setCommunityStateValue(prev => ({
         ...prev,
-        currentCommuinty: {
-          ...prev.currentCommuinty,
+        currentCommunity: {
+          ...prev.currentCommunity,
           imageUrl: downloadUrl,
         } as Community,
       }));
@@ -111,7 +111,12 @@ const About: React.FC<AboutProps> = ({ communityData }) => {
               fontSize={18}
               mr={2}
             />
-            {communityData.createdAt && <Text>Created {moment(new Date(communityData.createdAt!.seconds * 1000)).format('MMM DD, YYYY')}</Text>}
+            {communityData.createdAt && (
+              <Text>
+                Created{' '}
+                {moment(new Date(communityData.createdAt!.seconds * 1000)).format('MMM DD, YYYY')}
+              </Text>
+            )}
           </Flex>
           <Link href={`/r/${communityData.id}/submit`}>
             <Button

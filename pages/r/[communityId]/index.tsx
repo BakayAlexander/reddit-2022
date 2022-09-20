@@ -22,7 +22,7 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
   useEffect(() => {
     setCommunityStateValue(prev => ({
       ...prev,
-      currentCommuinty: communityData,
+      currentCommunity: communityData,
     }));
   }, []);
 
@@ -57,7 +57,9 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
     return {
       props: {
         //Because I'm using a Timestamp from Firebase, Next throw a number of errors for serverside props. To prevent them I use safe json stringify.
-        communityData: communityDoc.exists() ? JSON.parse(safeJsonStringify({ id: communityDoc.id, ...communityDoc.data() })) : '',
+        communityData: communityDoc.exists()
+          ? JSON.parse(safeJsonStringify({ id: communityDoc.id, ...communityDoc.data() }))
+          : '',
       },
     };
   } catch (error) {

@@ -11,7 +11,9 @@ type HeaderProps = {
 const Header: React.FC<HeaderProps> = ({ communityData }) => {
   const { handleJoinOrLeaveCommunity, communityStateValue, loading } = useCommunityData();
 
-  const isJoined = !!communityStateValue.mySnippets.find(item => item.communityId === communityData.id);
+  const isJoined = !!communityStateValue.mySnippets.find(
+    item => item.communityId === communityData.id
+  );
   return (
     <Flex
       direction='column'
@@ -31,9 +33,9 @@ const Header: React.FC<HeaderProps> = ({ communityData }) => {
           width='95%'
           maxWidth='860px'
         >
-          {communityStateValue.currentCommuinty?.imageUrl ? (
+          {communityStateValue.currentCommunity?.imageUrl ? (
             <Image
-              src={communityStateValue.currentCommuinty.imageUrl}
+              src={communityStateValue.currentCommunity.imageUrl}
               alt='Community avatar'
               borderRadius='full'
               boxSize='66px'
