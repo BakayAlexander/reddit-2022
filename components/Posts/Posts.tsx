@@ -23,7 +23,11 @@ const Posts: React.FC<PostsProps> = ({ communityData }) => {
     setLoading(true);
     try {
       //get posts for community
-      const postQuery = query(collection(firestore, 'posts'), where('communityId', '==', communityData.id), orderBy('createdAt', 'desc'));
+      const postQuery = query(
+        collection(firestore, 'posts'),
+        where('communityId', '==', communityData.id),
+        orderBy('createdAt', 'desc')
+      );
 
       const postDocs = await getDocs(postQuery);
       const posts = postDocs.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -38,7 +42,7 @@ const Posts: React.FC<PostsProps> = ({ communityData }) => {
 
   useEffect(() => {
     getPosts();
-  }, []);
+  }, [communityData]);
 
   return (
     <>
@@ -51,7 +55,9 @@ const Posts: React.FC<PostsProps> = ({ communityData }) => {
               key={post.id}
               post={post}
               userIsCreator={user?.uid === post.creatorId}
-              userVoteValue={postStateValue.postVotes.find(vote => vote.postId === post.id)?.voteValue}
+              userVoteValue={
+                postStateValue.postVotes.find(vote => vote.postId === post.id)?.voteValue
+              }
               onVote={onVote}
               onDeletePost={onDeletePost}
               onSelectPost={onSelectPost}

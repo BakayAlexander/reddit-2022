@@ -7,12 +7,14 @@ import { FaReddit } from 'react-icons/fa';
 import { IoImageOutline } from 'react-icons/io5';
 import { useSetRecoilState } from 'recoil';
 import { auth } from '../../firebase/clientApp';
+import useDirectory from '../../hooks/useDirectory';
 import { authModalState } from '../../recoil/authModalAtom';
 
 const CreatePostLink: React.FC = () => {
   const router = useRouter();
   const [user] = useAuthState(auth);
   const setAuthModalState = useSetRecoilState(authModalState);
+  const { toggleMenuOpen } = useDirectory();
 
   const onClick = () => {
     if (!user) {
@@ -20,7 +22,13 @@ const CreatePostLink: React.FC = () => {
       return;
     }
     const { communityId } = router.query;
-    router.push(`/r/${communityId}/submit`);
+
+    if (communityId) {
+      router.push(`/r/${communityId}/submit`);
+      return;
+    }
+
+    toggleMenuOpen();
   };
   return (
     <Flex
@@ -34,7 +42,12 @@ const CreatePostLink: React.FC = () => {
       p={2}
       mb={4}
     >
-      <Icon as={FaReddit} fontSize={36} color='gray.300' mr={4} />
+      <Icon
+        as={FaReddit}
+        fontSize={36}
+        color='gray.300'
+        mr={4}
+      />
       <Input
         placeholder='Create Post'
         fontSize='10pt'
@@ -57,8 +70,19 @@ const CreatePostLink: React.FC = () => {
         mr={4}
         onClick={onClick}
       />
-      <Icon as={IoImageOutline} fontSize={24} mr={4} color='gray.400' cursor='pointer' />
-      <Icon as={BsLink45Deg} fontSize={24} color='gray.400' cursor='pointer' />
+      <Icon
+        as={IoImageOutline}
+        fontSize={24}
+        mr={4}
+        color='gray.400'
+        cursor='pointer'
+      />
+      <Icon
+        as={BsLink45Deg}
+        fontSize={24}
+        color='gray.400'
+        cursor='pointer'
+      />
     </Flex>
   );
 };
