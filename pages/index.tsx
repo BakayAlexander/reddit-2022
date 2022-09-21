@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useRecoilValue } from 'recoil';
 import CreatePostLink from '../components/Community/CreatePostLink';
+import PersonalHome from '../components/Community/PersonalHome';
+import Premium from '../components/Community/Premium';
 import Recommendations from '../components/Community/Recomendations';
 import PageContentLayout from '../components/Layouts/PageContentLayout';
 import PostItem from '../components/Posts/PostItem';
@@ -138,7 +140,15 @@ const Home: NextPage = () => {
         )}
       </>
       <>
-        <Recommendations />
+        <Stack
+          spacing={5}
+          position='sticky'
+          top='14px'
+        >
+          <Recommendations />
+          <Premium />
+          <PersonalHome />
+        </Stack>
       </>
     </PageContentLayout>
   );
