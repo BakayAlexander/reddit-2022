@@ -17,6 +17,7 @@
     "@fontsource/raleway": "^4.5.10",
     "@google-cloud/firestore": "^6.2.0",
     "firebase": "^9.9.2",
+    "firebase-admin": "^11.0.1",
     "firebase-functions": "^3.23.0",
     "firebase-tools": "^11.7.0",
     "framer-motion": "^6.5.1",

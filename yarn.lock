@@ -5508,7 +5508,7 @@
     "locate-path" "^6.0.0"
     "path-exists" "^4.0.0"
 
-"firebase-admin@^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0":
+"firebase-admin@^11.0.1", "firebase-admin@^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0":
   "integrity" "sha512-rL3wlZbi2Kb/KJgcmj1YHlD4ZhfmhfgRO2YJialxAllm0tj1IQea878hHuBLGmv4DpbW9t9nLvX9kddNR2Y65Q=="
   "resolved" "https://registry.npmjs.org/firebase-admin/-/firebase-admin-11.0.1.tgz"
   "version" "11.0.1"
