@@ -1,34 +1,45 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# :briefcase: Reddit Clone 2022
 
-## Getting Started
+This project was building with
+[Create Next App](https://nextjs.org/docs/api-reference/create-next-app).
 
-First, run the development server:
+## :magic_wand: `Technical stack`:
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+- :joystick: Next.js
+- :art: Chakra UI
+- :pencil2: TypeScript
+- :file_folder: Firebase and Firebase hooks
+- :page_with_curl: [Recoil](https://github.com/facebookexperimental/Recoil)
+- :hourglass: Moment
+- :mahjong: CodeStyle - Prettier
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### :scroll: Description:
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+This is a Reddit clone app. Please register your account or sign up by Google and start posting and
+sharing.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### :astronaut: User guide:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+1. Register or log in with your Google account (you can also use mine, login: test@mail.com,
+   password: testtest)
+2. Reset your password if you need (you will recieve email with new password).
+3. As a user create your personal community and add an avatar.
+4. You can also join existing communities.
+5. Depending on the type of community you can add posts. Also you can add pictures by clicking tab
+   «Images and video».
+6. Users can vote, view or delete post depending on your rights in each community.
+7. You can also comment posts and then delete comments.
+8. Logout by pushing your profile icon.
 
-## Learn More
+### :shinto_shrine: `yarn dev`
 
-To learn more about Next.js, take a look at the following resources:
+- Download this project or `git clone`
+- Run command `yarn install`
+- Run `yarn dev`
+- Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The page will reload when you make changes.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+# :desktop_computer: Public domain
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## [Reddit](https://reddit-2022.vercel.app/)
